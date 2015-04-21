@@ -1,11 +1,41 @@
 ---
 - hosts: vagrant
+  sudo: true
   tasks:
     - name: 1. install Apache
       apt: name=apache2 state=present
 
     - name: 2. install PHP module for Apache
-      apt: name=libapache2-mod-php5 state=present
+      apt: name=libapache2-mod-php5 state=present update_cache=yes
 
     - name: 3. start Apache
       service: name=apache2 state=running enabled=yes
+
+    - name: Install MySQL
+      apt: pkg=mysql-server state=present
+
+    - name: Install python-mysqldb
+      apt: pkg=python-mysqldb state=present
+
+    - name: Install PHP MySQL bindings
+      apt: pkg=php5-mysql state=present
+
+    - name: restart apache
+      service: name=apache2 state=restarted
+
+    - name: Set MySQL root password before installing
+      debconf: name='mysql-server' question='mysql-server/root_password' value='password' vtype='password'
+
+    - name: Confirm MySQL root password before installing
+      debconf: name='mysql-server' question='mysql-server/root_password_again' value='password' vtype='password'
+
+    - name: Database creation with name gitSearch 
+      mysql_db: name=gitSearch state=present
+
+    - name: Copy database dump. Stage 1
+      copy: src=../gitSearch.sql.bz2 dest=/tmp/gitSearch.sql.bz2 
+    
+    - name: Copy database dump. Stage 2
+      mysql_db: name=gitSearch state=import target=/tmp/gitSearch.sql.bz2
+
+
