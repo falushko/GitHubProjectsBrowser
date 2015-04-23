@@ -1,1 +1,1 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/vladimir/gitSearch/GitHubProjectsBrowser","disabled":false}}}
+{"virtualbox":{"/var/www":{"guestpath":"/var/www","hostpath":"/home/vladimir/gitSearch/GitHubProjectsBrowser","disabled":false},"/var/www/html":{"guestpath":"/var/www/html","hostpath":"/home/vladimir/gitSearch/GitHubProjectsBrowser","disabled":false}}}

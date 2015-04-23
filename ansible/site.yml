@@ -6,7 +6,10 @@
       apt: name=apache2 state=present
 
     - name: 2. install PHP module for Apache
-      apt: name=libapache2-mod-php5 state=present update_cache=yes
+      apt: name=php5 state=latest update_cache=yes
+
+    - name: Install PHP GD library
+      apt: name=php5-cli state=latest
 
     - name: 3. start Apache
       service: name=apache2 state=running enabled=yes
@@ -37,5 +40,30 @@
     
     - name: Copy database dump. Stage 2
       mysql_db: name=gitSearch state=import target=/tmp/gitSearch.sql.bz2
+
+    - name: Ensure curl is installed (RedHat).
+      yum: pkg=curl state=installed
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure curl is installed (Debian).
+      apt: pkg=curl state=installed
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Composer into the current directory.
+      shell: >
+        curl -sS https://getcomposer.org/installer | php
+        creates=/usr/local/bin/composer
+    
+    - name: Some shit
+      apt: name=php5-curl state=latest update_cache=yes
+    
+    - name: Move Composer into globally-accessible location.
+      shell: >
+        mv composer.phar /usr/local/bin/composer
+        creates=/usr/local/bin/composer
+
+    - name: Update dependencies
+      composer: command=install working_dir=/var/www/html
+
 
 
