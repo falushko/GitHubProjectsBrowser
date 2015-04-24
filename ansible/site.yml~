@@ -5,6 +5,9 @@
     - name: 1. install Apache
       apt: name=apache2 state=present
 
+    - name: 1.1 Delete temporary file
+      file: path=/var/www/web/index.html state=absent
+
     - name: 2. install PHP module for Apache
       apt: name=php5 state=latest update_cache=yes
 
@@ -59,7 +62,7 @@
         creates=/usr/local/bin/composer
 
     - name: 17. Update dependencies
-      composer: command=install working_dir=/var/www/html
+      composer: command=install working_dir=/var/www
 
 
 

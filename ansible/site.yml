@@ -5,6 +5,9 @@
     - name: 1. install Apache
       apt: name=apache2 state=present
 
+    - name: 1.1 Delete temporary file
+      file: path=/var/www/web/index.html state=absent
+
     - name: 2. install PHP module for Apache
       apt: name=php5 state=latest update_cache=yes
 
@@ -50,7 +53,7 @@
         curl -sS https://getcomposer.org/installer | php
         creates=/usr/local/bin/composer
     
-    - name: 15. Don't remember what exactly this thing do, but it works
+    - name: 15. Install php5-curl
       apt: name=php5-curl state=latest update_cache=yes
     
     - name: 16. Move Composer into globally-accessible location.
