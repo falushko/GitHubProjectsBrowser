@@ -8,64 +8,58 @@
     - name: 2. install PHP module for Apache
       apt: name=php5 state=latest update_cache=yes
 
-    - name: Install PHP GD library
+    - name: 3. Install PHP GD library
       apt: name=php5-cli state=latest
 
-    - name: 3. start Apache
+    - name: 4. Start Apache
       service: name=apache2 state=running enabled=yes
 
-    - name: Install MySQL
+    - name: 5. Install MySQL
       apt: pkg=mysql-server state=present
 
-    - name: Install python-mysqldb
+    - name: 6. Install python-mysqldb
       apt: pkg=python-mysqldb state=present
 
-    - name: Install PHP MySQL bindings
+    - name: 7. Install PHP MySQL bindings
       apt: pkg=php5-mysql state=present
 
-    - name: restart apache
+    - name: 8. Restart apache
       service: name=apache2 state=restarted
 
-    - name: Set MySQL root password before installing
+    - name: 9. Set MySQL root password
       debconf: name='mysql-server' question='mysql-server/root_password' value='password' vtype='password'
 
-    - name: Confirm MySQL root password before installing
+    - name: 10. Confirm MySQL root password before installing
       debconf: name='mysql-server' question='mysql-server/root_password_again' value='password' vtype='password'
 
-    - name: Database creation with name gitSearch 
+    - name: 11. Database creation with name gitSearch 
       mysql_db: name=gitSearch state=present
 
-    - name: Copy database dump. Stage 1
+    - name: 12.a Copy database dump
       copy: src=../gitSearch.sql.bz2 dest=/tmp/gitSearch.sql.bz2 
     
-    - name: Copy database dump. Stage 2
+    - name: 12.b Copy database dump
       mysql_db: name=gitSearch state=import target=/tmp/gitSearch.sql.bz2
 
-    - name: Ensure curl is installed (RedHat).
-      yum: pkg=curl state=installed
-      when: ansible_os_family == 'RedHat'
-
-    - name: Ensure curl is installed (Debian).
+    - name: 13. Ensure curl is installed
       apt: pkg=curl state=installed
       when: ansible_os_family == 'Debian'
 
-    - name: Install Composer into the current directory.
+    - name: 14. Install Composer into the current directory
       shell: >
         curl -sS https://getcomposer.org/installer | php
         creates=/usr/local/bin/composer
     
-    - name: Some shit
+    - name: 15. Something I don't remember
       apt: name=php5-curl state=latest update_cache=yes
     
-    - name: Move Composer into globally-accessible location.
+    - name: 16. Move Composer into globally-accessible location.
       shell: >
         mv composer.phar /usr/local/bin/composer
         creates=/usr/local/bin/composer
 
-    - name: Update dependencies
+    - name: 17. Update dependencies
       composer: command=install working_dir=/var/www/html
 
-    - name: Giving permissions
-      file: path=/var/www state=directory mode="0775" recurse=yes
 
 
