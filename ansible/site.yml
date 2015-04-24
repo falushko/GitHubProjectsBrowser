@@ -59,7 +59,7 @@
         creates=/usr/local/bin/composer
 
     - name: 17. Update dependencies
-      composer: command=install working_dir=/var/www/html
+      composer: command=install working_dir=/var/www
 
 
 
