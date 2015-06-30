@@ -20,6 +20,7 @@ class GitController extends Controller
     public function actionOneRepo()
     {
         $client = new \Github\Client();
+        $client->
         $repo = $client->api('repo')->show('KnpLabs', 'php-github-api');
         return $this->render('git', ['params' => $repo]);
 
