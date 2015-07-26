@@ -64,5 +64,10 @@
     - name: 17. Update dependencies
       composer: command=install working_dir=/var/www
 
+    - name: 18. Update dependencies v2
+      shell: >
+        cd /var/www
+        composer install
+
 
 
