@@ -15,6 +15,7 @@ $createdAt = substr(Html::encode($params['created_at']), 0,-1);
 $name = Html::encode($params['name']);
 $owner = Html::encode($params['owner']);
 $sName = Html::encode($params['sName']);
+$liked[];
 
 foreach($params['liked'] as $key => $value){
     $liked[] = $value->getAttribute('login');

@@ -41,7 +41,7 @@
     - name: 12.a Copy database dump
       copy: src=../gitSearch.sql.bz2 dest=/tmp/gitSearch.sql.bz2 
 
-    - name: 12.b Copy database dump
+    - name: 12.b Import database dump
       mysql_db: name=gitSearch state=import target=/tmp/gitSearch.sql.bz2
 
     - name: 13. Ensure curl is installed
