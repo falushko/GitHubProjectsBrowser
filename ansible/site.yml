@@ -40,7 +40,7 @@
 
     - name: 12.a Copy database dump
       copy: src=../gitSearch.sql.bz2 dest=/tmp/gitSearch.sql.bz2 
-    
+
     - name: 12.b Copy database dump
       mysql_db: name=gitSearch state=import target=/tmp/gitSearch.sql.bz2
 
@@ -52,19 +52,21 @@
       shell: >
         curl -sS https://getcomposer.org/installer | php
         creates=/usr/local/bin/composer
-    
+
     - name: 15. Install php5-curl
       apt: name=php5-curl state=latest update_cache=yes
-    
+
     - name: 16. Move Composer into globally-accessible location.
       shell: >
         mv composer.phar /usr/local/bin/composer
         creates=/usr/local/bin/composer
 
     - name: 17. Update dependencies
-      composer: command=install working_dir=/var/www
+      shell: >
+        cd /var/www
+        composer update
 
-    - name: 18. Update dependencies v2
+    - name: 18. Install dependencies
       shell: >
         cd /var/www
         composer install
