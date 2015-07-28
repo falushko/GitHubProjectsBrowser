@@ -12,7 +12,7 @@ $model = new SearchForm;
 </div>
     
 <ol class="breadcrumb">
-    <li><a href="http://localhost/web/">Mobidev GitHub Browser</a></li>
+    <li><a href="http://192.168.33.10/">Mobidev GitHub Browser</a></li>
     <li class="active">Search</li>
 </ol>
 
@@ -34,18 +34,18 @@ foreach($params as $key => $value){
 
     if(empty($liked)){
         $like = "<button type=\"button\" class=\"btn btn-default\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/repo-like-unlike&repo=$owner/$name&phrase={$value['search_phrase']}'\">Like!</button>";
+        onClick=\"parent.location='http://192.168.33.10/?r=site/repo-like-unlike&repo=$owner/$name&phrase={$value['search_phrase']}'\">Like!</button>";
     } else {
         $like = "<button type=\"button\" class=\"btn btn-info\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/repo-like-unlike&repo=$owner/$name&phrase={$value['search_phrase']}'\">Unike!</button>";
+        onClick=\"parent.location='http://192.168.33.10/?r=site/repo-like-unlike&repo=$owner/$name&phrase={$value['search_phrase']}'\">Unike!</button>";
     }
 
 echo <<<LABEL
   <ul class="list-group">
-    <li class="list-group-item active"><a class="white" href="http://localhost/web/index.php?r=site/repo&owner=$owner&name=$name">$name</a>
+    <li class="list-group-item active"><a class="white" href="http://192.168.33.10/?r=site/repo&owner=$owner&name=$name">$name</a>
     $like</li>
     <li class="list-group-item">Description:<br/> $description</li>
-    <li class="list-group-item">Owner: <a href="http://localhost/web/index.php?r=site/user&name=$owner">$owner</a></li>
+    <li class="list-group-item">Owner: <a href="http://192.168.33.10/?r=site/user&name=$owner">$owner</a></li>
     <li class="list-group-item">Watchers: $watchers</li>
     <li class="list-group-item">Forks: $forks</li>
     <li class="list-group-item">Homepage: <a href="$homepage" target="_blank">$homepage</a></li>

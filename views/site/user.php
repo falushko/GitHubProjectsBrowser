@@ -15,11 +15,11 @@ use app\models\SearchForm;
       
     if(empty($liked)){
         $button = "<button type=\"button\" class=\"btn btn-default\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/user-like-unlike&login=$login&view=user'\">
+        onClick=\"parent.location='http://192.168.33.10/?r=site/user-like-unlike&login=$login&view=user'\">
         Like!</button>";
     } else {
         $button = "<button type=\"button\" class=\"btn btn-info\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/user-like-unlike&login=$login&view=user'\">
+        onClick=\"parent.location='http://192.168.33.10/?r=site/user-like-unlike&login=$login&view=user'\">
         Unlike!</button>";
     }
 ?>
@@ -31,7 +31,7 @@ use app\models\SearchForm;
 </div>
     
 <ol class="breadcrumb">
-    <li><a href="http://localhost/web/">Mobidev GitHub Browser</a></li>
+    <li><a href="192.168.33.10/">Mobidev GitHub Browser</a></li>
     <li class="active"><?= $login ?></li>
 </ol> 
 

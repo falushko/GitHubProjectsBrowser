@@ -30,7 +30,7 @@ foreach($params['liked'] as $key => $value){
 </div>
     
 <ol class="breadcrumb">
-    <li><a href="http://localhost/web/">Mobidev GitHub Browser</a></li>
+    <li><a href="192.168.33.10/">Mobidev GitHub Browser</a></li>
     <li class="active"><?= $name ?></li>
 </ol> 
 
@@ -62,15 +62,15 @@ foreach($params['contributors'] as $key => $value){
         $contributor = !empty($value['name']) ? Html::encode($value['name']) : '';
         $user = "<span id=\"user_name\">$contributor</span>";
     } else {
-        $user = "<span id=\"user_name\"><a href=\"http://localhost/web/index.php?r=site/user&name=$contributor\">$contributor</a></span>";
+        $user = "<span id=\"user_name\"><a href=\"http://192.168.33.10/?r=site/user&name=$contributor\">$contributor</a></span>";
     }
         
     if(!in_array($contributor, $liked)){
         $like = "<li class=\"list-group-item\">$user &nbsp; <button type=\"button\" class=\"btn btn-default\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/user-like-unlike-details&login=$contributor&owner=$owner&name=$sName'\">Like!</button></li>";
+        onClick=\"parent.location='http://192.168.33.10/?r=site/user-like-unlike-details&login=$contributor&owner=$owner&name=$sName'\">Like!</button></li>";
     } else {
         $like = "<li class=\"list-group-item\">$user &nbsp;<button type=\"button\" class=\"btn btn-info\" 
-        onClick=\"parent.location='http://localhost/web/index.php?r=site/user-like-unlike-details&login=$contributor&owner=$owner&name=$sName'\">Unike!</button></li>";
+        onClick=\"parent.location='http://192.168.33.10/?r=site/user-like-unlike-details&login=$contributor&owner=$owner&name=$sName'\">Unike!</button></li>";
     }           
     echo $like;
 }
