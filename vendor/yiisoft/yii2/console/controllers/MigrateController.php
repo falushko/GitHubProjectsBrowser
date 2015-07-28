@@ -10,6 +10,7 @@ namespace yii\console\controllers;
 use Yii;
 use yii\db\Connection;
 use yii\db\Query;
+use yii\db\Schema;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
@@ -93,6 +94,7 @@ class MigrateController extends BaseMigrateController
         if (parent::beforeAction($action)) {
             if ($action->id !== 'create') {
                 $this->db = Instance::ensure($this->db, Connection::className());
+                Schema::setDb($this->db);
             }
             return true;
         } else {
@@ -124,7 +126,7 @@ class MigrateController extends BaseMigrateController
         $query = new Query;
         $rows = $query->select(['version', 'apply_time'])
             ->from($this->migrationTable)
-            ->orderBy('version DESC')
+            ->orderBy('apply_time DESC, version DESC')
             ->limit($limit)
             ->createCommand($this->db)
             ->queryAll();

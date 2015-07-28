@@ -21,7 +21,6 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public $model;
 
-
     /**
      * @inheritdoc
      */
@@ -58,13 +57,13 @@ class ActiveField extends \yii\widgets\ActiveField
 
     /**
      * Makes field auto completable
-     * @param array $data auto complete data (array of callables or scalars)
+     * @param  array  $data auto complete data (array of callables or scalars)
      * @return static the field object itself
      */
     public function autoComplete($data)
     {
         static $counter = 0;
-        $this->inputOptions['class'] .= ' typeahead typeahead-' . (++$counter);
+        $this->inputOptions['class'] .= ' typeahead-' . (++$counter);
         foreach ($data as &$item) {
             $item = ['word' => $item];
         }

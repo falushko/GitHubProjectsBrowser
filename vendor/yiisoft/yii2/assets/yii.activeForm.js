@@ -97,7 +97,7 @@
          * where
          *  - event: an Event object.
          *  - jqXHR: a jqXHR object
-         *  - settings: the status of the request ("success", "notmodified", "error", "timeout", "abort", or "parsererror").
+         *  - textStatus: the status of the request ("success", "notmodified", "error", "timeout", "abort", or "parsererror").
          */
         ajaxComplete: 'ajaxComplete'
     };
@@ -158,6 +158,24 @@
         value: undefined
     };
 
+
+    var submitDefer;
+    
+    var setSubmitFinalizeDefer = function($form) {
+        submitDefer = $.Deferred();
+        $form.data('yiiSubmitFinalizePromise', submitDefer.promise());
+    };
+    
+    // finalize yii.js $form.submit
+    var submitFinalize = function($form) {
+        if(submitDefer) {
+            submitDefer.resolve();
+            submitDefer = undefined;
+            $form.removeData('yiiSubmitFinalizePromise');
+        }
+    };
+
+
     var methods = {
         init: function (attributes, options) {
             return this.each(function () {
@@ -168,7 +186,7 @@
 
                 var settings = $.extend({}, defaults, options || {});
                 if (settings.validationUrl === undefined) {
-                    settings.validationUrl = $form.prop('action');
+                    settings.validationUrl = $form.attr('action');
                 }
 
                 $.each(attributes, function (i) {
@@ -273,6 +291,7 @@
                 $form.trigger(event, [messages, deferreds]);
                 if (event.result === false) {
                     data.submitting = false;
+                    submitFinalize($form);
                     return;
                 }
             }
@@ -312,13 +331,13 @@
                 }
                 if (needAjaxValidation) {
                     var $button = data.submitObject,
-                        extData = '&' + data.settings.ajaxParam + '=' + $form.prop('id');
-                    if ($button && $button.length && $button.prop('name')) {
-                        extData += '&' + $button.prop('name') + '=' + $button.prop('value');
+                        extData = '&' + data.settings.ajaxParam + '=' + $form.attr('id');
+                    if ($button && $button.length && $button.attr('name')) {
+                        extData += '&' + $button.attr('name') + '=' + $button.attr('value');
                     }
                     $.ajax({
                         url: data.settings.validationUrl,
-                        type: $form.prop('method'),
+                        type: $form.attr('method'),
                         data: $form.serialize() + extData,
                         dataType: data.settings.ajaxDataType,
                         complete: function (jqXHR, textStatus) {
@@ -341,6 +360,7 @@
                         },
                         error: function () {
                             data.submitting = false;
+                            submitFinalize($form);
                         }
                     });
                 } else if (data.submitting) {
@@ -359,15 +379,20 @@
                 data = $form.data('yiiActiveForm');
 
             if (data.validated) {
+                // Second submit's call (from validate/updateInputs)
                 data.submitting = false;
                 var event = $.Event(events.beforeSubmit);
                 $form.trigger(event);
                 if (event.result === false) {
                     data.validated = false;
+                    submitFinalize($form);
                     return false;
                 }
                 return true;   // continue submitting the form since validation passes
             } else {
+                // First submit's call (from yii.js/handleAction) - execute validating
+                setSubmitFinalizeDefer($form);
+                
                 if (data.settings.timer !== undefined) {
                     clearTimeout(data.settings.timer);
                 }
@@ -416,7 +441,10 @@
             });
         }
         if (attribute.validateOnType) {
-            $input.on('keyup.yiiActiveForm', function () {
+            $input.on('keyup.yiiActiveForm', function (e) {
+                if ($.inArray(e.which, [16, 17, 18, 37, 38, 39, 40]) !== -1 ) {
+                    return;
+                }
                 if (attribute.value !== getValue($form, attribute)) {
                     validateAttribute($form, attribute, false, attribute.validationDelay);
                 }
@@ -498,7 +526,7 @@
             if (errorInputs.length) {
                 var top = $form.find(errorInputs.join(',')).first().closest(':visible').offset().top;
                 var wtop = $(window).scrollTop();
-                if (top < wtop || top > wtop + $(window).height) {
+                if (top < wtop || top > wtop + $(window).height()) {
                     $(window).scrollTop(top);
                 }
                 data.submitting = false;
@@ -506,12 +534,20 @@
                 data.validated = true;
                 var $button = data.submitObject || $form.find(':submit:first');
                 // TODO: if the submission is caused by "change" event, it will not work
-                if ($button.length) {
-                    $button.click();
-                } else {
-                    // no submit button in the form
-                    $form.submit();
+                if ($button.length && $button.attr('type') == 'submit' && $button.attr('name')) {
+                    // simulate button input value
+                    var $hiddenButton = $('input[type="hidden"][name="' + $button.attr('name') + '"]', $form);
+                    if (!$hiddenButton.length) {
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: $button.attr('name'),
+                            value: $button.attr('value')
+                        }).appendTo($form);
+                    } else {
+                        $hiddenButton.attr('value', $button.attr('value'));
+                    }
                 }
+                $form.submit();
             }
         } else {
             $.each(data.attributes, function () {
@@ -520,6 +556,7 @@
                 }
             });
         }
+        submitFinalize($form);
     };
 
     /**
@@ -590,11 +627,11 @@
 
     var getValue = function ($form, attribute) {
         var $input = findInput($form, attribute);
-        var type = $input.prop('type');
+        var type = $input.attr('type');
         if (type === 'checkbox' || type === 'radio') {
             var $realInput = $input.filter(':checked');
             if (!$realInput.length) {
-                $realInput = $form.find('input[type=hidden][name="' + $input.prop('name') + '"]');
+                $realInput = $form.find('input[type=hidden][name="' + $input.attr('name') + '"]');
             }
             return $realInput.val();
         } else {

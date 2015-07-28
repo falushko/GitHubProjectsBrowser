@@ -39,7 +39,6 @@ class Button extends Widget
      */
     public $encodeLabel = true;
 
-
     /**
      * Initializes the widget.
      * If you override this method, make sure you call the parent implementation first.
@@ -56,7 +55,7 @@ class Button extends Widget
      */
     public function run()
     {
+        echo Html::tag($this->tagName, $this->encodeLabel ? Html::encode($this->label) : $this->label, $this->options);
         $this->registerPlugin('button');
-        return Html::tag($this->tagName, $this->encodeLabel ? Html::encode($this->label) : $this->label, $this->options);
     }
 }

@@ -10,14 +10,14 @@ namespace yii\bootstrap;
 use yii\web\AssetBundle;
 
 /**
- * Asset bundle for the Twitter bootstrap default theme.
+ * Bootstrap 2 theme for Bootstrap 3.
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  * @since 2.0
  */
 class BootstrapThemeAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/bootstrap/dist';
+    public $sourcePath = '@vendor/twbs/bootstrap/dist';
     public $css = [
         'css/bootstrap-theme.css',
     ];

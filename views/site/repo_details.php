@@ -54,10 +54,12 @@ foreach($params['liked'] as $key => $value){
 <?php
 
 foreach($params['contributors'] as $key => $value){
-    $contributor = Html::encode($value['login']); 
+
+    $contributor;
+    $contributor = !empty($value['login']) ? Html::encode($value['login']) : '';
     //if contributor is anonimous
     if(empty($contributor)){
-        $contributor = Html::encode($value['name']); 
+        $contributor = !empty($value['name']) ? Html::encode($value['name']) : '';
         $user = "<span id=\"user_name\">$contributor</span>";
     } else {
         $user = "<span id=\"user_name\"><a href=\"http://localhost/web/index.php?r=site/user&name=$contributor\">$contributor</a></span>";

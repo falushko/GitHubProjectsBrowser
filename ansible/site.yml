@@ -64,12 +64,7 @@
     - name: 17. Update dependencies
       shell: >
         cd /var/www
-        composer update
-
-    - name: 18. Install dependencies
-      shell: >
-        cd /var/www
-        composer install
+        sudo composer update
 
 
 
