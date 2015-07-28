@@ -1,1 +1,1 @@
-{"virtualbox":{"/var/www/html":{"guestpath":"/var/www/html","hostpath":"/home/vladimir/PhpstormProjects/GitHubProjectsBrowser/web","disabled":false},"/var/www":{"guestpath":"/var/www","hostpath":"/home/vladimir/PhpstormProjects/GitHubProjectsBrowser","disabled":false}}}
+{"virtualbox":{"/var/www/html":{"guestpath":"/var/www/html","hostpath":"/home/vladimir/GitHubProjectsBrowser/web","disabled":false},"/var/www":{"owner":"www-data","group":"www-data","guestpath":"/var/www","hostpath":"/home/vladimir/GitHubProjectsBrowser","disabled":false}}}
