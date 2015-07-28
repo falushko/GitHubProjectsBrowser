@@ -32,6 +32,9 @@
     - name: 10. Confirm MySQL root password before installing
       debconf: name='mysql-server' question='mysql-server/root_password_again' value='password' vtype='password'
 
+    - name: Database user creation
+      mysql_user: name=Vasya password=agH21jQJ priv=*.*:ALL state=present
+
     - name: 11. Database creation with name gitSearch 
       mysql_db: name=gitSearch state=present
 
