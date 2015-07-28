@@ -17,14 +17,14 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>    
     <?php $this->head() ?>
-    <link href="/web/css/style.css" rel="stylesheet">
-    <link href="/web/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
 
 <?php $this->beginBody() ?>
 
-<div id="wrapper"> 
+<div id="my_wrapper"> 
     <?= $content ?>
 </div>
 

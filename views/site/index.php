@@ -15,10 +15,7 @@ use yii\widgets\ActiveForm;
 		<?php ActiveForm::end(); ?>
     </div>
     
-    <ol class="breadcrumb">
-        <li><a href="#">Mobidev GitHub Browser</a></li>
-        <li class="active">Main</li>
-    </ol>
+    
 
 
 

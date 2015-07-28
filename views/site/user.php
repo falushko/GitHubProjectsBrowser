@@ -31,7 +31,7 @@ use app\models\SearchForm;
 </div>
     
 <ol class="breadcrumb">
-    <li><a href="192.168.33.10/">Mobidev GitHub Browser</a></li>
+    <li><a href="http://192.168.33.10/">Mobidev GitHub Browser</a></li>
     <li class="active"><?= $login ?></li>
 </ol> 
 

@@ -26,9 +26,6 @@
     - name: 7. Install PHP MySQL bindings
       apt: pkg=php5-mysql state=present
 
-    - name: 8. Restart apache
-      service: name=apache2 state=restarted
-
     - name: 9. Set MySQL root password
       debconf: name='mysql-server' question='mysql-server/root_password' value='password' vtype='password'
 
@@ -55,6 +52,9 @@
 
     - name: 15. Install php5-curl
       apt: name=php5-curl state=latest update_cache=yes
+
+    - name: 8. Restart apache
+      service: name=apache2 state=restarted
 
     - name: 16. Move Composer into globally-accessible location.
       shell: >
